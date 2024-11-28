@@ -8,7 +8,7 @@ import {
   DragEndEvent,
   DragOverEvent
 } from "@dnd-kit/core";
-import { arrayMove, rectSortingStrategy, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import Column, { ColumnType } from "./Column";
 import { useState, useEffect } from "react";
 import { data } from "../utils/data";

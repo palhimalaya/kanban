@@ -17,35 +17,43 @@ interface CardProps {
 
 const Card: FC<CardProps> = ({ id, title, columnId, handleDeleteCard }) => {
   const { attributes, listeners, setNodeRef, transform } = useSortable({
-    id: id
+    id: id,
   });
 
   const style = {
-    transform: CSS.Transform.toString(transform)
+    transform: CSS.Transform.toString(transform),
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, columnId: string, cardId: string) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      handleDeleteCard(columnId, cardId);
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    const confirmed = window.confirm("Are you sure you want to delete this column?");
+    if (confirmed) {
+      handleDeleteCard(columnId, id);
     }
   };
 
-  const handleClick = () => {
-    console.log('Click event triggered');
-    handleDeleteCard(columnId, id);
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLButtonElement>,
+    columnId: string,
+    cardId: string
+  ) => {
+    e.stopPropagation();
+    if (e.key === "Enter" || e.key === " ") {
+      handleDeleteCard(columnId, cardId);
+    }
   };
 
   return (
     <div
       ref={setNodeRef}
       {...attributes}
-      {...listeners}
       style={style}
       className="m-2.5 bg-white p-2.5 rounded-lg shadow-md text-gray-800 flex items-center justify-between"
     >
-      <div id={id}>
+      <div id={id} {...listeners} className="flex-grow cursor-grab">
         <p className="font-medium">{title}</p>
       </div>
+
       <button
         onClick={handleClick}
         onKeyDown={(e) => handleKeyDown(e, columnId, id)}
